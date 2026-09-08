@@ -1,8 +1,10 @@
 import * as React from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppLayout } from "@/components/AppLayout";
 import { PanelTabel, Pilih, thCls, tdCls, KosongTabel, Lencana } from "@/components/Tabel";
 import { useData } from "@/lib/db";
+import { useAuth } from "@/lib/auth";
+import { nilaiAkhir } from "@/lib/data";
 
 export const Route = createFileRoute("/siswa")({
   head: () => ({
