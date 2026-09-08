@@ -44,7 +44,7 @@ function NilaiPerKelas() {
   const [cari, setCari] = React.useState("");
 
   React.useEffect(() => {
-    if (!kelasId && kelas.length) setKelasId(kelas[0].id);
+    if (!kelasId && kelas.length && kelas[0]) setKelasId(kelas[0].id);
   }, [kelas, kelasId]);
 
   const k = kelas.find((x) => x.id === kelasId);
@@ -166,11 +166,11 @@ function NilaiPerKelas() {
                       <XAxis dataKey="kode" tick={{ fontSize: 11 }} />
                       <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
                       <Tooltip
-                        formatter={(v: number, name: string) => [
+                        formatter={(v: any, name: any) => [
                           v,
                           name === "rata" ? "Rata-rata" : "KKM",
                         ]}
-                        labelFormatter={(_, payload) =>
+                        labelFormatter={(_: any, payload: any) =>
                           payload?.[0]?.payload?.nama ?? ""
                         }
                       />
