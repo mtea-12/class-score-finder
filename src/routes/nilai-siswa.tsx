@@ -261,6 +261,110 @@ function NilaiPerSiswa() {
           </tbody>
         </table>
       </PanelTabel>
+
+      <Dialog
+        open={imporBuka}
+        onOpenChange={(o) => {
+          setImporBuka(o);
+          if (!o) {
+            setImporBaris([]);
+            setNamaBerkas("");
+          }
+        }}
+      >
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Impor Nilai dari Excel/CSV</DialogTitle>
+            <DialogDescription>
+              Berkas harus memiliki kolom: <span className="font-mono">nis</span>,{" "}
+              <span className="font-mono">kode_mapel</span>, <span className="font-mono">tugas</span>,{" "}
+              <span className="font-mono">pts</span>, <span className="font-mono">pas</span>. Satu baris untuk satu
+              siswa pada satu mata pelajaran.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <input
+              ref={inputBerkas}
+              type="file"
+              accept=".xlsx,.xls,.csv"
+              className="hidden"
+              onChange={(e) => {
+                void pilihBerkas(e.target.files?.[0] ?? null);
+                e.target.value = "";
+              }}
+            />
+            <Button type="button" variant="outline" onClick={() => inputBerkas.current?.click()}>
+              <Upload className="mr-2 h-4 w-4" /> Pilih berkas
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() =>
+                unduhTemplate(
+                  (daftarSiswa.length > 0 ? daftarSiswa : siswa).slice(0, 3).flatMap((s) =>
+                    mapel.slice(0, 3).map((m) => ({ nis: s.nis, kode: m.kode })),
+                  ),
+                )
+              }
+            >
+              <Download className="mr-2 h-4 w-4" /> Unduh template
+            </Button>
+            {namaBerkas && <span className="text-sm text-muted-foreground">{namaBerkas}</span>}
+          </div>
+
+          {imporBaris.length > 0 && (
+            <>
+              <p className="text-sm">
+                <span className="font-semibold text-success">{valid.length} baris siap disimpan</span>
+                {gagal.length > 0 && <span className="text-destructive"> · {gagal.length} baris dilewati</span>}
+              </p>
+              <div className="max-h-64 overflow-auto rounded-lg border border-border">
+                <table className="w-full min-w-[640px]">
+                  <thead className="bg-secondary/60">
+                    <tr>
+                      <th className={thCls}>NIS</th>
+                      <th className={thCls}>Siswa</th>
+                      <th className={thCls}>Mapel</th>
+                      <th className={thCls}>Tugas</th>
+                      <th className={thCls}>PTS</th>
+                      <th className={thCls}>PAS</th>
+                      <th className={thCls}>Keterangan</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {imporBaris.slice(0, 200).map((b) => (
+                      <tr key={b.no} className={b.pesan ? "bg-destructive/5" : ""}>
+                        <td className={`${tdCls} font-mono text-xs`}>{b.nis || "-"}</td>
+                        <td className={tdCls}>{b.namaSiswa}</td>
+                        <td className={tdCls}>{b.namaMapel}</td>
+                        <td className={tdCls}>{b.tugas}</td>
+                        <td className={tdCls}>{b.pts}</td>
+                        <td className={tdCls}>{b.pas}</td>
+                        <td className={tdCls}>
+                          <Lencana jenis={b.pesan ? "bahaya" : "sukses"} anak={b.pesan ?? "Siap"} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {imporBaris.length > 200 && (
+                <p className="text-xs text-muted-foreground">Menampilkan 200 baris pertama dari {imporBaris.length}.</p>
+              )}
+            </>
+          )}
+
+          <DialogFooter>
+            <Button type="button" variant="ghost" onClick={() => setImporBuka(false)}>
+              Batal
+            </Button>
+            <Button type="button" onClick={simpanImpor} disabled={mengimpor || valid.length === 0}>
+              {mengimpor ? "Menyimpan…" : `Simpan ${valid.length} nilai`}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AppLayout>
   );
 }
