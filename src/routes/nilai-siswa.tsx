@@ -43,6 +43,11 @@ function NilaiPerSiswa() {
   const [cari, setCari] = React.useState("");
   const [draf, setDraf] = React.useState<Draf>({});
   const [menyimpan, setMenyimpan] = React.useState(false);
+  const [imporBuka, setImporBuka] = React.useState(false);
+  const [imporBaris, setImporBaris] = React.useState<BarisImpor[]>([]);
+  const [namaBerkas, setNamaBerkas] = React.useState("");
+  const [mengimpor, setMengimpor] = React.useState(false);
+  const inputBerkas = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (search.siswa) {
