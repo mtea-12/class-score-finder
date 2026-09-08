@@ -1,12 +1,22 @@
 import * as React from "react";
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Save } from "lucide-react";
+import { Download, Save, Upload } from "lucide-react";
 import { AppLayout } from "@/components/AppLayout";
 import { PanelTabel, Pilih, thCls, tdCls, KosongTabel, Lencana } from "@/components/Tabel";
 import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/db";
 import { nilaiAkhir, predikat } from "@/lib/data";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { bacaBerkas, cocokkan, keNilai, unduhTemplate, type BarisImpor } from "@/lib/impor-nilai";
 
 export const Route = createFileRoute("/nilai-siswa")({
   validateSearch: (s: Record<string, unknown>) => ({ siswa: typeof s['siswa'] === "string" ? s['siswa'] : undefined }),
