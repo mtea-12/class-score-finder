@@ -29,6 +29,7 @@ const MENU: Record<Peran, MenuItem[]> = {
     { to: "/guru", label: "Data Guru", icon: GraduationCap },
     { to: "/kelas", label: "Data Kelas", icon: School },
     { to: "/mapel", label: "Mata Pelajaran", icon: BookOpen },
+    { to: "/nilai-siswa", label: "Nilai per Siswa", icon: PencilLine },
     { to: "/tahun-ajaran", label: "Tahun Ajaran", icon: CalendarRange },
   ],
   guru: [

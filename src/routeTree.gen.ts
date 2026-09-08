@@ -16,6 +16,7 @@ import { Route as InputNilaiRouteImport } from './routes/input-nilai'
 import { Route as KelasRouteImport } from './routes/kelas'
 import { Route as MapelRouteImport } from './routes/mapel'
 import { Route as NilaiSayaRouteImport } from './routes/nilai-saya'
+import { Route as NilaiSiswaRouteImport } from './routes/nilai-siswa'
 import { Route as RaporRouteImport } from './routes/rapor'
 import { Route as RekapKelasRouteImport } from './routes/rekap-kelas'
 import { Route as RekapNilaiRouteImport } from './routes/rekap-nilai'
@@ -57,6 +58,11 @@ const NilaiSayaRoute = NilaiSayaRouteImport.update({
   path: '/nilai-saya',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NilaiSiswaRoute = NilaiSiswaRouteImport.update({
+  id: '/nilai-siswa',
+  path: '/nilai-siswa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RaporRoute = RaporRouteImport.update({
   id: '/rapor',
   path: '/rapor',
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/kelas': typeof KelasRoute
   '/mapel': typeof MapelRoute
   '/nilai-saya': typeof NilaiSayaRoute
+  '/nilai-siswa': typeof NilaiSiswaRoute
   '/rapor': typeof RaporRoute
   '/rekap-kelas': typeof RekapKelasRoute
   '/rekap-nilai': typeof RekapNilaiRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByTo {
   '/kelas': typeof KelasRoute
   '/mapel': typeof MapelRoute
   '/nilai-saya': typeof NilaiSayaRoute
+  '/nilai-siswa': typeof NilaiSiswaRoute
   '/rapor': typeof RaporRoute
   '/rekap-kelas': typeof RekapKelasRoute
   '/rekap-nilai': typeof RekapNilaiRoute
@@ -120,6 +128,7 @@ export interface FileRoutesById {
   '/kelas': typeof KelasRoute
   '/mapel': typeof MapelRoute
   '/nilai-saya': typeof NilaiSayaRoute
+  '/nilai-siswa': typeof NilaiSiswaRoute
   '/rapor': typeof RaporRoute
   '/rekap-kelas': typeof RekapKelasRoute
   '/rekap-nilai': typeof RekapNilaiRoute
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/kelas'
     | '/mapel'
     | '/nilai-saya'
+    | '/nilai-siswa'
     | '/rapor'
     | '/rekap-kelas'
     | '/rekap-nilai'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/kelas'
     | '/mapel'
     | '/nilai-saya'
+    | '/nilai-siswa'
     | '/rapor'
     | '/rekap-kelas'
     | '/rekap-nilai'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/kelas'
     | '/mapel'
     | '/nilai-saya'
+    | '/nilai-siswa'
     | '/rapor'
     | '/rekap-kelas'
     | '/rekap-nilai'
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   KelasRoute: typeof KelasRoute
   MapelRoute: typeof MapelRoute
   NilaiSayaRoute: typeof NilaiSayaRoute
+  NilaiSiswaRoute: typeof NilaiSiswaRoute
   RaporRoute: typeof RaporRoute
   RekapKelasRoute: typeof RekapKelasRoute
   RekapNilaiRoute: typeof RekapNilaiRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NilaiSayaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nilai-siswa': {
+      id: '/nilai-siswa'
+      path: '/nilai-siswa'
+      fullPath: '/nilai-siswa'
+      preLoaderRoute: typeof NilaiSiswaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rapor': {
       id: '/rapor'
       path: '/rapor'
@@ -283,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   KelasRoute: KelasRoute,
   MapelRoute: MapelRoute,
   NilaiSayaRoute: NilaiSayaRoute,
+  NilaiSiswaRoute: NilaiSiswaRoute,
   RaporRoute: RaporRoute,
   RekapKelasRoute: RekapKelasRoute,
   RekapNilaiRoute: RekapNilaiRoute,
