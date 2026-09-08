@@ -124,18 +124,61 @@ function NilaiPerSiswa() {
       .finally(() => setMenyimpan(false));
   }
 
+  async function pilihBerkas(f: File | null) {
+    if (!f) return;
+    try {
+      const mentah = await bacaBerkas(f);
+      const hasilCocok = cocokkan(mentah, siswa, mapel);
+      setNamaBerkas(f.name);
+      setImporBaris(hasilCocok);
+      if (hasilCocok.length === 0) toast.error("Berkas tidak berisi data yang bisa dibaca.");
+    } catch (e) {
+      toast.error((e as Error).message || "Berkas tidak bisa dibaca.");
+    }
+  }
+
+  function simpanImpor() {
+    const baris = keNilai(imporBaris);
+    if (baris.length === 0) {
+      toast.error("Tidak ada baris yang cocok dengan data siswa dan mata pelajaran.");
+      return;
+    }
+    setMengimpor(true);
+    simpanNilai(baris)
+      .then(() => {
+        toast.success(`${baris.length} nilai berhasil diimpor.`);
+        setImporBuka(false);
+        setImporBaris([]);
+        setNamaBerkas("");
+        setDraf({});
+      })
+      .catch((e) => toast.error((e as Error).message || "Gagal menyimpan nilai."))
+      .finally(() => setMengimpor(false));
+  }
+
+  const valid = imporBaris.filter((b) => !b.pesan);
+  const gagal = imporBaris.filter((b) => b.pesan);
+
   return (
     <AppLayout
       judul="Nilai per Siswa"
       deskripsi={terpilih ? `${terpilih.nama} · NIS ${terpilih.nis}` : "Pilih siswa untuk mulai mengisi nilai"}
       aksi={
-        <button
-          onClick={simpanSemua}
-          disabled={menyimpan}
-          className="flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary-dark disabled:opacity-60 sm:px-4"
-        >
-          <Save className="h-4 w-4" /> <span className="hidden sm:inline">{menyimpan ? "Menyimpan…" : "Simpan Nilai"}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setImporBuka(true)}
+            className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-semibold hover:bg-secondary/60 sm:px-4"
+          >
+            <Upload className="h-4 w-4" /> <span className="hidden sm:inline">Impor Excel/CSV</span>
+          </button>
+          <button
+            onClick={simpanSemua}
+            disabled={menyimpan}
+            className="flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary-dark disabled:opacity-60 sm:px-4"
+          >
+            <Save className="h-4 w-4" /> <span className="hidden sm:inline">{menyimpan ? "Menyimpan…" : "Simpan Nilai"}</span>
+          </button>
+        </div>
       }
     >
       <div className="mb-4 flex flex-col gap-3 rounded-xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center">
