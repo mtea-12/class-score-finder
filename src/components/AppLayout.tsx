@@ -11,6 +11,7 @@ import {
   ClipboardList,
   FileBarChart,
   FileText,
+  History,
   LogOut,
   Menu,
   X,
