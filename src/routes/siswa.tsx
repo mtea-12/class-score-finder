@@ -19,7 +19,9 @@ export const Route = createFileRoute("/siswa")({
 });
 
 function DataSiswa() {
-  const { kelas, namaKelas, siswa } = useData();
+  const { kelas, namaKelas, siswa, nilai } = useData();
+  const { akun } = useAuth();
+  const isAdmin = akun?.peran === "admin";
   const [cari, setCari] = React.useState("");
   const [kls, setKls] = React.useState("semua");
   const [jk, setJk] = React.useState("semua");
